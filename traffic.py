@@ -3,6 +3,7 @@ import numpy as np
 import os
 import sys
 import tensorflow as tf
+import pandas as pd
 
 from sklearn.model_selection import train_test_split
 
@@ -58,7 +59,21 @@ def load_data(data_dir):
     be a list of integer labels, representing the categories for each of the
     corresponding `images`.
     """
-    raise NotImplementedError
+
+    # Get each category in the directory
+    categories = [str(categories) for categories in range(NUM_CATEGORIES)]
+    images = []
+
+    # Iterate over each category
+    for category in categories:
+        category_path = os.path.join(data_dir, category)
+        #Iterate over each image in the category and append the image into the list of images.
+        for file in os.listdir(category_path):
+            image = cv2.imread(os.path.join(category_path, file))
+            resize_image = cv2.resize(image, (IMG_HEIGHT, IMG_WIDTH))
+            images.append(image)
+            
+            
 
 
 def get_model():
