@@ -73,11 +73,13 @@ def load_data(data_dir):
         for file in os.listdir(category_path):
             image = cv2.imread(os.path.join(category_path, file))
 
+            # Resize image and append image and label
             if image is not None:
                 resize_image = cv2.resize(image, (IMG_HEIGHT, IMG_WIDTH))
                 images.append(resize_image)
                 labels.append(int(category))
 
+    # change lists to numPy array
     images= np.array(images)
     labels= np.array(labels)
 
