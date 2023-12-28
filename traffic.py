@@ -92,7 +92,38 @@ def get_model():
     `input_shape` of the first layer is `(IMG_WIDTH, IMG_HEIGHT, 3)`.
     The output layer should have `NUM_CATEGORIES` units, one for each category.
     """
-    raise NotImplementedError
+    # Create the neural network
+    model = tf.keras.models.Sequential()
+
+    # Input conv layer and max pooling
+    model.add(tf.keras.layers.Conv2D(32, (3, 3), activation='relu', input_shape=(IMG_HEIGHT, IMG_WIDTH, 3)))
+    model.add(tf.keras.layers.MaxPooling2D((2, 2)))
+
+    # 2nd set of conv layer and max pooling
+    model.add(tf.keras.layers.Conv2D(64, (3, 3), activation='relu'))
+    model.add(tf.keras.layers.MaxPooling2D((2, 2)))
+
+    # 3rd set of conv layer
+    model.add(tf.keras.layers.Conv2D(64, (3, 3), activation='relu'))
+
+    # Flatten layers
+    model.add(tf.keras.layers.Flatten())
+
+    # 128 hidden units with 0.3 dropout rate
+    model.add(tf.keras.layers.Dense(128, activation='relu'))
+    model.add(tf.keras.layers.Dropout(0.3))
+
+    # Output layer
+    model.add(tf.keras.layers.Dense(NUM_CATEGORIES, activation='softmax'))
+
+    # Compile the model
+    model.compile(
+        optimizer='adam',
+        loss= 'categorical_crossentropy',
+        metrics=['accuracy'],
+    )
+
+    return model
 
 
 if __name__ == "__main__":
