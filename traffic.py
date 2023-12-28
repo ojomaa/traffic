@@ -63,17 +63,25 @@ def load_data(data_dir):
     # Get each category in the directory
     categories = [str(categories) for categories in range(NUM_CATEGORIES)]
     images = []
+    labels = []
 
     # Iterate over each category
     for category in categories:
         category_path = os.path.join(data_dir, category)
+
         #Iterate over each image in the category and append the image into the list of images.
         for file in os.listdir(category_path):
             image = cv2.imread(os.path.join(category_path, file))
-            resize_image = cv2.resize(image, (IMG_HEIGHT, IMG_WIDTH))
-            images.append(image)
-            
-            
+
+            if image is not None:
+                resize_image = cv2.resize(image, (IMG_HEIGHT, IMG_WIDTH))
+                images.append(resize_image)
+                labels.append(int(category))
+
+    images= np.array(images)
+    labels= np.array(labels)
+
+    return (images, labels)
 
 
 def get_model():
